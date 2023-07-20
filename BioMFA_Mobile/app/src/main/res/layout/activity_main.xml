@@ -1,0 +1,111 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/toggle_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="clip_horizontal"
+            android:background="@color/dark_gray"
+            android:backgroundTint="@color/green"
+            android:drawableTop="@drawable/arrow_up"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:textColorHighlight="@color/dark_gray"
+            android:textColorLink="@color/dark_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"/>
+
+        <Button
+            android:id="@+id/scan_button"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:height="60dp"
+            android:background="@color/light_gray"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingLeft="40dp"
+            android:paddingTop="0dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="0dp"
+            android:text="Scan RFID"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/light_gray"
+            android:textColorLink="@color/black"
+            android:textSize="24sp"
+            app:backgroundTint="@color/light_gray"
+            app:rippleColor="@color/black"
+            android:layout_marginTop="2dp"/>
+
+        <Switch
+            android:id="@+id/mode_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:height="60dp"
+            android:background="@color/light_gray"
+            android:checked="false"
+            android:fadingEdge="none"
+            android:fontFamily="sans-serif"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:showText="false"
+            android:switchTextAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:text="Dark mode"
+            android:textSize="24sp"
+            tools:ignore="UseSwitchCompatOrMaterialXml"
+            android:layout_marginTop="2dp"/>
+
+        <Button
+            android:id="@+id/app_info"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:height="60dp"
+            android:background="@color/light_gray"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingLeft="40dp"
+            android:paddingTop="0dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="0dp"
+            android:text="Info"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/light_gray"
+            android:textColorLink="@color/black"
+            android:textSize="24sp"
+            app:backgroundTint="@color/light_gray"
+            app:rippleColor="@color/black"
+            android:layout_marginTop="2dp"/>
+
+    </LinearLayout>
+
+    <!-- Placeholder for the rest of the screen content -->
+    <!-- You can add your own content here -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
