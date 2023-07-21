@@ -1,5 +1,6 @@
 package mobile.biomfa
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -50,6 +51,16 @@ class MainActivity : AppCompatActivity() {
             child.startAnimation(slideUpAnimation)
         }
         toggleButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.arrow_down)
+
+        toggleButton.setOnClickListener {
+            toggleMenu()
+        }
+
+        val infoButton: Button = findViewById(R.id.app_info)
+        infoButton.setOnClickListener {
+            val intent = Intent(this, InfoActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun hideMenu() {

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BioMFA</string>
+    <string name="type_code">Type code</string>
+    <string name="scan_qr">Scan QR</string>
+    <string name="scan_rfid">Scan RFID</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="info">Info</string>
 </resources>

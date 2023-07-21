@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +7,47 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/title_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/menu_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/biomfa_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/qr_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:text="@string/scan_qr"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/qr_code_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="@string/type_code"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/menu_layout"
@@ -19,52 +61,56 @@
 
         <Button
             android:id="@+id/toggle_button"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="clip_horizontal"
-            android:background="@color/dark_gray"
-            android:backgroundTint="@color/green"
+            android:layout_marginTop="2dp"
+            android:background="@color/light_gray"
             android:drawableTop="@drawable/arrow_up"
             android:fontFamily="sans-serif"
             android:gravity="center"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:textColorHighlight="@color/dark_gray"
-            android:textColorLink="@color/dark_gray"
+            android:textColor="@color/light_gray"
+            android:textColorHighlight="@color/light_gray"
+            android:textColorHint="@color/light_gray"
+            android:textColorLink="@color/light_gray"
+            app:iconTint="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"/>
+            tools:ignore="MissingConstraints,Suspicious0dp" />
 
         <Button
             android:id="@+id/scan_button"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:height="60dp"
             android:background="@color/light_gray"
+            android:fontFamily="sans-serif"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:paddingLeft="40dp"
             android:paddingTop="0dp"
             android:paddingRight="40dp"
             android:paddingBottom="0dp"
-            android:text="Scan RFID"
+            android:text="@string/scan_rfid"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/black"
-            android:textColorHighlight="@color/light_gray"
-            android:textColorLink="@color/black"
             android:textSize="24sp"
             app:backgroundTint="@color/light_gray"
-            app:rippleColor="@color/black"
-            android:layout_marginTop="2dp"/>
+            app:rippleColor="@color/black" />
 
         <Switch
             android:id="@+id/mode_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:height="60dp"
             android:background="@color/light_gray"
             android:checked="false"
@@ -74,25 +120,26 @@
             android:paddingRight="40dp"
             android:showText="false"
             android:switchTextAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:text="Dark mode"
+            android:text="@string/dark_mode"
             android:textSize="24sp"
-            tools:ignore="UseSwitchCompatOrMaterialXml"
-            android:layout_marginTop="2dp"/>
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <Button
             android:id="@+id/app_info"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:height="60dp"
             android:background="@color/light_gray"
+            android:fontFamily="sans-serif"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:paddingLeft="40dp"
             android:paddingTop="0dp"
             android:paddingRight="40dp"
             android:paddingBottom="0dp"
-            android:text="Info"
+            android:text="@string/info"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/black"
@@ -100,8 +147,7 @@
             android:textColorLink="@color/black"
             android:textSize="24sp"
             app:backgroundTint="@color/light_gray"
-            app:rippleColor="@color/black"
-            android:layout_marginTop="2dp"/>
+            app:rippleColor="@color/black" />
 
     </LinearLayout>
 
