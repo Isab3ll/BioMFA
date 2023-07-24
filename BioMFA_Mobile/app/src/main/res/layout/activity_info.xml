@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/about_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:text="About BioMFA"
+        android:fontFamily="sans-serif-thin"
+        android:text="@string/about_biomfa"
         android:textColor="@android:color/black"
         android:textSize="48sp"
         android:textStyle="bold"
@@ -28,17 +30,18 @@
         android:fontFamily="sans-serif-thin"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="The BioMFA application is an integral component of my engineering thesis, conducted at the esteemed Warsaw University of Technology. Within the realm of Cybersecurity at the Faculty of Electronics and Information Technology, this project has been a remarkable endeavor. The application forms an essential part of an innovative authentication solution, harnessing RFID implants for secure user verification. The potential impact of this cutting-edge approach on digital security is significant, and I am thrilled to have contributed to advancing the field through this academic pursuit."
+        android:text="@string/app_description"
         android:textAlignment="textStart"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/about_title" />
+        app:layout_constraintTop_toBottomOf="@+id/about_title"
+        tools:ignore="RtlCompat" />
 
     <Button
-        android:id="@+id/returnButton"
+        android:id="@+id/return_button"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -46,8 +49,13 @@
         android:background="@color/dark_gray"
         android:drawableTop="@drawable/arrow_return"
         app:iconTint="@color/light_gray"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/dark_gray"
+        android:textColorHighlight="@color/dark_gray"
+        android:backgroundTint="@color/dark_gray"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

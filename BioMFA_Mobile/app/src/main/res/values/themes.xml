@@ -3,6 +3,7 @@
     <style name="Base.Theme.BioMFA" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/dark_gray</item> -->
         <item name="colorSecondary">@color/light_gray</item> -->
+        <item name="android:statusBarColor">@color/dark_gray</item>
     </style>
 
     <style name="Theme.BioMFA" parent="Base.Theme.BioMFA">

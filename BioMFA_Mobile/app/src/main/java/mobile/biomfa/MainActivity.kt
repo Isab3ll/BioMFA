@@ -24,12 +24,10 @@ class MainActivity : AppCompatActivity() {
         menuLayout = findViewById(R.id.menu_layout)
         toggleButton = findViewById(R.id.toggle_button)
         toggleButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#363636"))
-
-        hideMenu()
-
         toggleButton.setOnClickListener {
             toggleMenu()
         }
+        hideMenu()
     }
 
     private fun toggleMenu() {
@@ -59,6 +57,12 @@ class MainActivity : AppCompatActivity() {
         val infoButton: Button = findViewById(R.id.app_info)
         infoButton.setOnClickListener {
             val intent = Intent(this, InfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        val scanRfidButton: Button = findViewById(R.id.scan_button)
+        scanRfidButton.setOnClickListener {
+            val intent = Intent(this, ScanRfidActivity::class.java)
             startActivity(intent)
         }
     }
