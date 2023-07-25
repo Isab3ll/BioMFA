@@ -24,12 +24,10 @@
 
         <activity
             android:name=".InfoActivity"
-            android:theme="@style/Theme.BioMFA"
             android:exported="true" />
 
         <activity
             android:name=".ScanRfidActivity"
-            android:theme="@style/Theme.BioMFA"
             android:exported="true" />
 
     </application>

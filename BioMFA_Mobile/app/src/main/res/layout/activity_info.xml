@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/about_title"
@@ -45,17 +45,15 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:visibility="visible"
         android:layout_gravity="center_horizontal"
         android:background="@color/dark_gray"
         android:drawableTop="@drawable/arrow_return"
-        app:iconTint="@color/light_gray"
         android:fontFamily="sans-serif"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/dark_gray"
-        android:textColorHighlight="@color/dark_gray"
-        android:backgroundTint="@color/dark_gray"/>
+        tools:ignore="MissingConstraints,Suspicious0dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

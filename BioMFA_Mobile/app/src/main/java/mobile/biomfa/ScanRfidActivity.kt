@@ -1,5 +1,7 @@
 package mobile.biomfa
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,7 @@ class ScanRfidActivity : AppCompatActivity() {
         setContentView(R.layout.activity_scan_rfid)
 
         val returnButton: Button = findViewById(R.id.return_button)
+        returnButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#363636"))
         returnButton.setOnClickListener {
             finish()
         }
