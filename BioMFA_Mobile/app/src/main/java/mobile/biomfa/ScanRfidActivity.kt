@@ -1,14 +1,12 @@
 package mobile.biomfa
 
-import android.app.PendingIntent
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.nfc.NfcAdapter
 import android.nfc.Tag
-import android.nfc.tech.Ndef
+import android.nfc.tech.MifareClassic
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +14,14 @@ import androidx.appcompat.app.AppCompatActivity
 class ScanRfidActivity : AppCompatActivity() {
 
     private var nfcAdapter: NfcAdapter? = null
-    private val nfcCallback = NfcAdapter.ReaderCallback { tag -> readFromTag(tag) }
+    private val nfcCallback = NfcAdapter.ReaderCallback { tag -> readMifareData(tag) }
+
+    private val BLOCK_INDEX = 4
+    private val SECTOR_INDEX = 1
+    private val DEFAULT_KEY = byteArrayOf(
+        0xFF.toByte(), 0xFF.toByte(), 0xFF.toByte(), 0xFF.toByte(),
+        0xFF.toByte(), 0xFF.toByte()
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,36 +46,35 @@ class ScanRfidActivity : AppCompatActivity() {
         nfcAdapter?.disableReaderMode(this)
     }
 
-    private fun readFromTag(tag: Tag) {
-        val ndef = Ndef.get(tag)
+    private fun readMifareData(tag: Tag) {
+        val mifare = MifareClassic.get(tag)
 
         try {
-            ndef?.connect()
-            val ndefMessage = ndef?.ndefMessage
-            if (ndefMessage != null) {
-                val records = ndefMessage.records
-                if (records.isNotEmpty()) {
-                    val payload = records[0].payload
-                    val text = String(payload, Charsets.UTF_8)
-
-                    val showDataIntent = Intent(this, ShowDataActivity::class.java).apply {
-                        putExtra(ShowDataActivity.EXTRA_SCANNED_DATA, text)
-                        putExtra(ShowDataActivity.EXTRA_TAG_TYPE, "NFC")
-                    }
-                    startActivity(showDataIntent)
+            mifare?.connect()
+            if (mifare?.authenticateSectorWithKeyA(SECTOR_INDEX, DEFAULT_KEY) == true) {
+                val blockData = mifare.readBlock(BLOCK_INDEX)
+                val dataAsString = blockData.toHexString()
+                val showDataIntent = Intent(this, ShowDataActivity::class.java).apply {
+                    putExtra(ShowDataActivity.EXTRA_SCANNED_DATA, dataAsString)
+                    putExtra(ShowDataActivity.EXTRA_TAG_TYPE, "MIFARE Tag")
                 }
+                startActivity(showDataIntent)
             } else {
                 runOnUiThread {
-                    Toast.makeText(applicationContext, "No NDEF records found on the tag.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Authentication failed.", Toast.LENGTH_LONG).show()
                 }
             }
-            ndef?.close()
         } catch (e: Exception) {
+            e.printStackTrace()
             runOnUiThread {
-                Toast.makeText(applicationContext, "Cannot Read From Tag.", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Error reading MIFARE data.", Toast.LENGTH_LONG).show()
             }
+        } finally {
+            mifare?.close()
         }
     }
 
-
+    private fun ByteArray.toHexString(): String {
+        return joinToString("") { "%02x".format(it) }
+    }
 }

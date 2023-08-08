@@ -1,7 +1,10 @@
 package mobile.biomfa
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -16,6 +19,12 @@ class ShowDataActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_data)
+
+        val returnButton: Button = findViewById(R.id.return_button)
+        returnButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#363636"))
+        returnButton.setOnClickListener {
+            finish()
+        }
 
         val dataTextView: TextView = findViewById(R.id.data_textview)
         val tagTypeTextView: TextView = findViewById(R.id.tag_type_textview)
