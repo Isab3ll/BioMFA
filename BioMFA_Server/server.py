@@ -18,23 +18,26 @@ def generate_operation_id():
 # Funkcja do obsługi operacji REGISTER od aplikacji B
 def handle_register_from_B(client_socket):
     operation_id = generate_operation_id()
+    registered_data[operation_id] = client_socket
     client_socket.send(operation_id.encode())
 
 # Funkcja do obsługi operacji REGISTER od aplikacji A
 def handle_register_from_A(client_socket, operation_id, mfa_id):
-    registered_data[operation_id] = mfa_id
+    if operation_id in registered_data:
+        b_client_socket = registered_data[operation_id]
+        b_client_socket.send(mfa_id.encode())
 
 # Funkcja do obsługi operacji LOGIN od aplikacji B
 def handle_login_from_B(client_socket):
     operation_id = generate_operation_id()
+    registered_data[operation_id] = client_socket
     client_socket.send(operation_id.encode())
 
 # Funkcja do obsługi operacji LOGIN od aplikacji A
 def handle_login_from_A(client_socket, operation_id, mfa_id):
-    if operation_id in registered_data and registered_data[operation_id] == mfa_id:
-        client_socket.send("Login successful".encode())
-    else:
-        client_socket.send("Login failed".encode())
+    if operation_id in registered_data:
+        b_client_socket = registered_data[operation_id]
+        b_client_socket.send(mfa_id.encode())
 
 # Główna funkcja obsługująca serwer
 def main():
