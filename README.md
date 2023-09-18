@@ -1,2 +1,2 @@
 # BioMFA
-Universal implantable identity
+Multi-factor authentication system for implantable RFID devices
