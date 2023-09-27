@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical"
+              android:gravity="center"
+              android:padding="16dp">
+
+    <TextView
+            android:id="@+id/type_code_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type code"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+    <EditText
+            android:id="@+id/code_input"
+            android:layout_width="226dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Type code"
+            android:textColor="@color/black"
+            android:inputType="number"
+            android:maxLength="6"
+            android:textSize="20sp"
+            android:textColorHighlight="@color/dark_gray"
+            android:textColorLink="@color/dark_gray"/>
+
+    <Button
+            android:id="@+id/next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Next"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/dark_gray"
+            android:backgroundTint="@color/dark_gray"
+            android:onClick="onNextButtonClick" />
+
+</LinearLayout>
