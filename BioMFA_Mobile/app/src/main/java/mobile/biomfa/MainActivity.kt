@@ -27,10 +27,5 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun openScanImplantActivity(view: View) {
-        val intent = Intent(this, ScanImplantActivity::class.java)
-        startActivity(intent)
-    }
-
 }
 

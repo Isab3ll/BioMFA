@@ -1,12 +1,10 @@
 package mobile.biomfa
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -58,11 +56,9 @@ class TypeCodeActivity : AppCompatActivity() {
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Empty implementation
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Empty implementation
             }
         }
 
@@ -73,7 +69,6 @@ class TypeCodeActivity : AppCompatActivity() {
         codeInput5.addTextChangedListener(textWatcher)
         codeInput6.addTextChangedListener(textWatcher)
 
-        // Obsługa klawisza cofania (backspace)
         codeInput1.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
                 codeInput1.text.clear()
@@ -138,9 +133,9 @@ class TypeCodeActivity : AppCompatActivity() {
             val code = "${codeInput1.text}${codeInput2.text}${codeInput3.text}${codeInput4.text}${codeInput5.text}${codeInput6.text}"
             if (isValidCode(code)) {
                 val intent = Intent(this, ScanImplantActivity::class.java)
+                intent.putExtra("code", code)
                 startActivity(intent)
             } else {
-                // Error message or invalid code handling
             }
         }
     }
