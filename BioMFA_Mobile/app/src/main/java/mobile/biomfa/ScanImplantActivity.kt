@@ -1,6 +1,7 @@
 package mobile.biomfa
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.MifareClassic
@@ -11,6 +12,10 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.IOException
 
 class ScanImplantActivity : AppCompatActivity() {
 
@@ -35,12 +40,12 @@ class ScanImplantActivity : AppCompatActivity() {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         dataTextView = findViewById(R.id.data_textview)
         nextButton = findViewById(R.id.next_button)
+        nextButton.visibility = View.INVISIBLE
 
         nextButton.setOnClickListener {
             val code = intent.getStringExtra("code")
             val mfa = dataTextView.text.toString()
-            Toast.makeText(applicationContext, "Code: $code, MFA: $mfa", Toast.LENGTH_LONG).show()
-            //TODO send code & mfa to server
+            sendDataToServer(code, mfa)
         }
     }
 
@@ -125,5 +130,48 @@ class ScanImplantActivity : AppCompatActivity() {
 
     private fun ByteArray.toHexString(): String {
         return joinToString("") { "%02x".format(it) }
+    }
+
+    private fun sendDataToServer(code: String?, mfa: String) {
+        val client = OkHttpClient()
+        val url = "https://X.X.X.X" // Replace with your server's URL
+
+        val json = """
+            {
+                "code": "$code",
+                "mfa": "$mfa"
+            }
+        """.trimIndent()
+
+        val requestBody = json.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+
+        val request = Request.Builder()
+            .url(url)
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                goToMainActivity()
+                runOnUiThread {
+                    Toast.makeText(applicationContext, "Failed to send data to the server.", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    goToMainActivity()
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(applicationContext, "Failed to send data to the server.", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun goToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }

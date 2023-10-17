@@ -35,7 +35,6 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/biomfa_logo"
                 android:contentDescription="@string/biomfa_logo"/>
-
         <Button
                 android:id="@+id/code_button"
                 android:layout_width="match_parent"
