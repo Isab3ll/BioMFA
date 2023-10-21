@@ -134,7 +134,7 @@ class ScanImplantActivity : AppCompatActivity() {
 
     private fun sendDataToServer(code: String?, mfa: String) {
         val client = OkHttpClient()
-        val url = "https://X.X.X.X" // Replace with your server's URL
+        val url = "https://192.168.6.146:20646"
 
         val json = """
             {
