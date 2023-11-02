@@ -7,14 +7,21 @@ import android.nfc.Tag
 import android.nfc.tech.MifareClassic
 import android.nfc.tech.MifareUltralight
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.neovisionaries.ws.client.*
+import com.neovisionaries.ws.client.WebSocket
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.internal.ws.RealWebSocket
 import java.io.IOException
 
 class ScanImplantActivity : AppCompatActivity() {
@@ -133,41 +140,34 @@ class ScanImplantActivity : AppCompatActivity() {
     }
 
     private fun sendDataToServer(code: String?, mfa: String) {
-        val client = OkHttpClient()
-        val url = "https://192.168.6.146:20646"
+        val url = "ws://frog01.mikr.us:30646"
+        val json = """{"sender": "Mobile", "action": "REGISTER", "content": {"operation_id": "$code", "mfa_id": "$mfa"}}"""
 
-        val json = """
-            {
-                "code": "$code",
-                "mfa": "$mfa"
-            }
-        """.trimIndent()
-
-        val requestBody = json.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-
-        val request = Request.Builder()
-            .url(url)
-            .post(requestBody)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                goToMainActivity()
-                runOnUiThread {
-                    Toast.makeText(applicationContext, "Failed to send data to the server.", Toast.LENGTH_LONG).show()
+        GlobalScope.launch(Dispatchers.IO) {
+            val websocket = WebSocketFactory().createSocket(url)
+            websocket.addListener(object : WebSocketAdapter() {
+                override fun onTextMessage(websocket: WebSocket?, text: String?) {
+                    super.onTextMessage(websocket, text)
                 }
-            }
 
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    goToMainActivity()
-                } else {
+                override fun onError(websocket: WebSocket?, cause: WebSocketException?) {
+                    super.onError(websocket, cause)
                     runOnUiThread {
-                        Toast.makeText(applicationContext, "Failed to send data to the server.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(applicationContext, "Error registering MFA.", Toast.LENGTH_LONG).show()
                     }
                 }
+
+            })
+
+            websocket.connect()
+            websocket.sendText(json)
+            websocket.disconnect()
+            runOnUiThread {
+                Toast.makeText(applicationContext, "Registration successful.", Toast.LENGTH_LONG).show()
+                goToMainActivity()
             }
-        })
+        }
+
     }
 
     private fun goToMainActivity() {
