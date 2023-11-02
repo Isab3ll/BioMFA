@@ -9,7 +9,7 @@ registered_users = {}
 logged_in_users = {}
 
 # Adres serwera WebSocket
-server_address = "ws://192.168.6.146:30646"
+server_address = "ws://frog01.mikr.us:30646"
 
 # Funkcja do obsługi rejestracji
 async def register(username, password, websocket):
@@ -37,15 +37,17 @@ async def main():
             if choice == "1":
                 username = input("Enter username: ")
                 password = input("Enter password: ")
-                message = {"action": "REGISTER", "content": {"username": username, "password": password}}
+                message = {"action": "REGISTER", "sender": "Web", "content": {"username": username, "password": password}}
                 await websocket.send(json.dumps(message))
                 response = await websocket.recv()
                 print(response)
+                success = await websocket.recv()
+                print(success)
 
             elif choice == "2":
                 username = input("Enter username: ")
                 password = input("Enter password: ")
-                message = {"action": "LOGIN", "content": {"username": username, "password": password}}
+                message = {"action": "LOGIN", "sender": "Web", "content": {"username": username, "password": password}}
                 await websocket.send(json.dumps(message))
                 response = await websocket.recv()
                 response_data = json.loads(response)
