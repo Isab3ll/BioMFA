@@ -37,7 +37,7 @@ async def main():
             if choice == "1":
                 username = input("Enter username: ")
                 password = input("Enter password: ")
-                message = {"action": "REGISTER", "sender": "Web", "content": {"username": username, "password": password}}
+                message = {"action": "REGISTER", "content": {"username": username, "password": password}}
                 await websocket.send(json.dumps(message))
                 response = await websocket.recv()
                 print(response)
@@ -47,7 +47,7 @@ async def main():
             elif choice == "2":
                 username = input("Enter username: ")
                 password = input("Enter password: ")
-                message = {"action": "LOGIN", "sender": "Web", "content": {"username": username, "password": password}}
+                message = {"action": "LOGIN", "content": {"username": username, "password": password}}
                 await websocket.send(json.dumps(message))
                 response = await websocket.recv()
                 response_data = json.loads(response)

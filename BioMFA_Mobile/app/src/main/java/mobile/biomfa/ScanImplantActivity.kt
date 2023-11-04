@@ -141,7 +141,7 @@ class ScanImplantActivity : AppCompatActivity() {
 
     private fun sendDataToServer(code: String?, mfa: String) {
         val url = "ws://frog01.mikr.us:30646"
-        val json = """{"sender": "Mobile", "action": "REGISTER", "content": {"operation_id": "$code", "mfa_id": "$mfa"}}"""
+        val json = """{"action": "MFA", "content": {"operation_id": "$code", "mfa_id": "$mfa"}}"""
 
         GlobalScope.launch(Dispatchers.IO) {
             val websocket = WebSocketFactory().createSocket(url)
@@ -153,7 +153,7 @@ class ScanImplantActivity : AppCompatActivity() {
                 override fun onError(websocket: WebSocket?, cause: WebSocketException?) {
                     super.onError(websocket, cause)
                     runOnUiThread {
-                        Toast.makeText(applicationContext, "Error registering MFA.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(applicationContext, "Server not found", Toast.LENGTH_LONG).show()
                     }
                 }
 
@@ -163,7 +163,7 @@ class ScanImplantActivity : AppCompatActivity() {
             websocket.sendText(json)
             websocket.disconnect()
             runOnUiThread {
-                Toast.makeText(applicationContext, "Registration successful.", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Authentication successful", Toast.LENGTH_LONG).show()
                 goToMainActivity()
             }
         }
