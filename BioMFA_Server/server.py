@@ -1,5 +1,4 @@
 import asyncio
-import hashlib
 import json
 import random
 import redis
@@ -74,16 +73,6 @@ async def login_user(username, password, websocket):
             }
         }
         await websocket.send(json.dumps(response))
-
-# Funkcja do hashowania hasła
-def hash_password(password):
-    sha256 = hashlib.sha256()
-    sha256.update(password.encode('utf-8'))
-    return sha256.hexdigest()
-
-# Funkcja do weryfikacji hasła
-def verify_password(plain_password, hashed_password):
-    return hash_password(plain_password) == hashed_password
 
 # Funkcja generująca unikalne ID operacji
 def generate_operation_id():

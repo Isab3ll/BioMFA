@@ -1,4 +1,5 @@
 import asyncio
+import hashlib
 import websockets
 import json
 
@@ -6,6 +7,11 @@ server_address = "ws://frog01.mikr.us:30646"
 global_websocket = None
 operation_id = None
 
+# Funkcja do hashowania hasła
+def hash_password(password):
+    return hashlib.sha512(password.encode('utf-8')).hexdigest()
+
+# Funkcja do resetowania operacji
 def reset_operation():
     if operation_id is not None:
         try:
@@ -27,7 +33,8 @@ async def main():
                 if choice == "1":
                     username = input("Enter username: ")
                     password = input("Enter password: ")
-                    message = {"action": "REGISTER", "content": {"username": username, "password": password}}
+                    hashed_password = hash_password(password)
+                    message = {"action": "REGISTER", "content": {"username": username, "password": hashed_password}}
                     await websocket.send(json.dumps(message))
                     response = await websocket.recv()
                     print(response)
@@ -41,7 +48,8 @@ async def main():
                 elif choice == "2":
                     username = input("Enter username: ")
                     password = input("Enter password: ")
-                    message = {"action": "LOGIN", "content": {"username": username, "password": password}}
+                    hashed_password = hash_password(password)
+                    message = {"action": "LOGIN", "content": {"username": username, "password": hashed_password}}
                     await websocket.send(json.dumps(message))
                     response = await websocket.recv()
                     print(response)
