@@ -1,9 +1,10 @@
 import asyncio
-import websockets
+import hashlib
 import json
-import sqlite3
 import random
 import redis
+import sqlite3
+import websockets
 
 # Połączenie z SQLite (baza danych User)
 sqlite_conn = sqlite3.connect('users.db')
@@ -74,6 +75,16 @@ async def login_user(username, password, websocket):
         }
         await websocket.send(json.dumps(response))
 
+# Funkcja do hashowania hasła
+def hash_password(password):
+    sha256 = hashlib.sha256()
+    sha256.update(password.encode('utf-8'))
+    return sha256.hexdigest()
+
+# Funkcja do weryfikacji hasła
+def verify_password(plain_password, hashed_password):
+    return hash_password(plain_password) == hashed_password
+
 # Funkcja generująca unikalne ID operacji
 def generate_operation_id():
     return str(random.randint(100000, 999999))
@@ -94,6 +105,11 @@ async def handle_client(websocket, path):
             username = content.get("username")
             password = content.get("password")
             await login_user(username, password, websocket)
+
+        elif action == "RESET":
+            operation_id = content.get("operation_id")
+            if redis_conn.exists(operation_id):
+                redis_conn.delete(operation_id)
 
         elif action == "MFA":
             operation_id = content.get("operation_id")
@@ -153,6 +169,8 @@ async def handle_client(websocket, path):
 
 start_server = websockets.serve(handle_client, "192.168.6.146", 30646)
 
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
-
+try:
+    asyncio.get_event_loop().run_until_complete(start_server)
+    asyncio.get_event_loop().run_forever()
+except KeyboardInterrupt:
+    pass
