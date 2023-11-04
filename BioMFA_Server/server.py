@@ -8,6 +8,8 @@ import redis
 # Połączenie z SQLite (baza danych User)
 sqlite_conn = sqlite3.connect('users.db')
 sqlite_cursor = sqlite_conn.cursor()
+sql = "CREATE TABLE IF NOT EXISTS User (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, mfa_id TEXT)"
+sqlite_cursor.execute(sql)
 
 # Połączenie z Redis (baza danych Operation)
 redis_conn = redis.StrictRedis(host='localhost', port=6379, db=0)
@@ -118,8 +120,6 @@ async def handle_client(websocket, path):
                 }
                 await web_socket.send(json.dumps(success_message))
 
-                # --------------------------------------------DOTĄD DZIAŁA, PONIŻEJ ŚREDNIO--------------------------------------------
-
                 # Przenieś rekord Operation do bazy User, zatwierdzając użytkownika
                 user_data = {
                     "username": operation_data["username"],
@@ -129,35 +129,27 @@ async def handle_client(websocket, path):
                 sqlite_cursor.execute("INSERT INTO User (username, password, mfa_id) VALUES (?, ?, ?)",
                                     (user_data["username"], user_data["password"], user_data["mfa_id"]))
                 sqlite_conn.commit()
-
-                # Usuń rekord z bazy Operation
                 redis_conn.delete(operation_id)
 
             elif operation == "LOGIN":
-                # Sprawdź, czy ID operacji istnieje w bazie Operation
-                if redis_conn.exists(operation_id):
-                    # Sprawdź poprawność MFA ID w bazie User
-                    if operation_data.get("mfa_id") == mfa_id:
-                        # Odpowiedz aplikacji webowej sukcesem
-                        success_message = {
-                            "action": "LOGIN",
-                            "content": "Login successful"
-                        }
-                        await web_socket.send(json.dumps(success_message))
-                    else:
-                        # Odpowiedz aplikacji webowej błędem autoryzacji MFA
-                        failure_message = {
-                            "action": "LOGIN",
-                            "content": "MFA authentication failed"
-                        }
-                        await web_socket.send(json.dumps(failure_message))
+                # Sprawdź poprawność MFA ID w bazie User
+                sqlite_cursor.execute("SELECT mfa_id FROM User WHERE username=?", (operation_data["username"],))
+                mfa_db = sqlite_cursor.fetchone()[0]
+                redis_conn.delete(operation_id)
+                if mfa_db == mfa_id:
+                    # Odpowiedz aplikacji webowej sukcesem
+                    success_message = {
+                        "action": "LOGIN",
+                        "content": "Login successful"
+                    }
+                    await web_socket.send(json.dumps(success_message))
                 else:
-                    # Odpowiedz aplikacji mobilnej błędem braku operacji
+                    # Odpowiedz aplikacji webowej błędem autoryzacji MFA
                     failure_message = {
                         "action": "LOGIN",
-                        "content": "Operation not found"
+                        "content": "MFA authentication failed"
                     }
-                    await websocket.send(json.dumps(failure_message))
+                    await web_socket.send(json.dumps(failure_message))
 
 start_server = websockets.serve(handle_client, "192.168.6.146", 30646)
 

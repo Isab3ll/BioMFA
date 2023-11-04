@@ -11,22 +11,6 @@ logged_in_users = {}
 # Adres serwera WebSocket
 server_address = "ws://frog01.mikr.us:30646"
 
-# Funkcja do obsługi rejestracji
-async def register(username, password, websocket):
-    if username in registered_users:
-        return {"action": "REGISTER", "content": "Username already exists."}
-    registered_users[username] = password
-    return {"action": "REGISTER", "content": "Registration successful."}
-
-# Funkcja do obsługi logowania
-async def login(username, password, websocket):
-    if username not in registered_users or registered_users[username] != password:
-        return {"action": "LOGIN", "content": "Invalid credentials."}
-    # Logowanie udane, generowanie MFA ID (to tylko przykład)
-    mfa_id = username + "_mfa"
-    logged_in_users[username] = mfa_id
-    return {"action": "LOGIN", "content": mfa_id}
-
 async def main():
     async with websockets.connect(server_address) as websocket:
         while True:
@@ -41,8 +25,9 @@ async def main():
                 await websocket.send(json.dumps(message))
                 response = await websocket.recv()
                 print(response)
-                success = await websocket.recv()
-                print(success)
+                operation_id = json.loads(response).get("content").get("operation_id")
+                result = await websocket.recv()
+                print(result)
 
             elif choice == "2":
                 username = input("Enter username: ")
@@ -50,11 +35,12 @@ async def main():
                 message = {"action": "LOGIN", "content": {"username": username, "password": password}}
                 await websocket.send(json.dumps(message))
                 response = await websocket.recv()
-                response_data = json.loads(response)
-                if response_data.get("action") == "LOGIN" and not response_data.get("content").startswith("Invalid"):
-                    mfa_id = response_data.get("content")
-                    print(f"Logged in. Your MFA ID: {mfa_id}")
-                    # Tutaj możesz wykonywać operacje związane z zalogowanym użytkownikiem
+                print(response)
+                content = json.loads(response).get("content")
+                if content != "Invalid credentials":
+                    operation_id = content.get("operation_id")
+                    result = await websocket.recv()
+                    print(result)            
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(main())
