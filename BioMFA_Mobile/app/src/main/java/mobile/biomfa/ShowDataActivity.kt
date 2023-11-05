@@ -15,7 +15,7 @@ class ShowDataActivity : AppCompatActivity() {
         const val EXTRA_TAG_TYPE = "extra_tag_type"
     }
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_data)
