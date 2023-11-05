@@ -56,7 +56,7 @@ class ScanRfidActivity : AppCompatActivity() {
         } else if (techList.contains("android.nfc.tech.MifareUltralight")) {
             readMifareUltralightData(tag)
         } else {
-            Toast.makeText(applicationContext, "Tag type not supported.", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Tag type not supported", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -75,13 +75,13 @@ class ScanRfidActivity : AppCompatActivity() {
                 startActivity(showDataIntent)
             } else {
                 runOnUiThread {
-                    Toast.makeText(applicationContext, "Authentication failed.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Authentication failed", Toast.LENGTH_LONG).show()
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
             runOnUiThread {
-                Toast.makeText(applicationContext, "Error reading MIFARE Classis data.", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Error reading MIFARE Classis data", Toast.LENGTH_LONG).show()
             }
         } finally {
             mifare?.close()
@@ -104,13 +104,13 @@ class ScanRfidActivity : AppCompatActivity() {
                 startActivity(showDataIntent)
             } else {
                 runOnUiThread {
-                    Toast.makeText(applicationContext, "No data found.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "No data found", Toast.LENGTH_LONG).show()
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
             runOnUiThread {
-                Toast.makeText(applicationContext, "Error reading MIFARE Ultralight data.", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Error reading MIFARE Ultralight data", Toast.LENGTH_LONG).show()
             }
         } finally {
             ultralight?.close()

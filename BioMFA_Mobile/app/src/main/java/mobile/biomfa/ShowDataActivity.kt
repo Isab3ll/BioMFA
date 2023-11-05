@@ -35,7 +35,7 @@ class ShowDataActivity : AppCompatActivity() {
         if (scannedData != null) {
             dataTextView.text = scannedData
         } else {
-            dataTextView.text = "No data found."
+            dataTextView.text = "No data found"
         }
 
         if (tagType != null) {

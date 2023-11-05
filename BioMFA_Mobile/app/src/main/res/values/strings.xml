@@ -11,4 +11,5 @@
     <string name="implant_message">Position your implant near the phone\'s NFC antenna.</string>
     <string name="nfc_icon">NFC Icon</string>
     <string name="line">_________________________</string>
+    <string name="next">Next</string>
 </resources>

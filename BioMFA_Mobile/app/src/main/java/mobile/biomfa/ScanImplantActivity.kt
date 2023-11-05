@@ -52,7 +52,14 @@ class ScanImplantActivity : AppCompatActivity() {
         nextButton.setOnClickListener {
             val code = intent.getStringExtra("code")
             val mfa = dataTextView.text.toString()
-            sendDataToServer(code, mfa)
+            try {
+                sendDataToServer(code, mfa)
+            }
+            catch (e: Exception) {
+                Toast.makeText(applicationContext, "Server not found", Toast.LENGTH_LONG).show()
+                goToMainActivity()
+            }
+
         }
     }
 
@@ -75,7 +82,7 @@ class ScanImplantActivity : AppCompatActivity() {
             readMifareUltralightData(tag)
         } else {
             runOnUiThread {
-                Toast.makeText(applicationContext, "Tag type not supported.", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Tag type not supported", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -94,13 +101,13 @@ class ScanImplantActivity : AppCompatActivity() {
                 }
             } else {
                 runOnUiThread {
-                    Toast.makeText(applicationContext, "Authentication failed.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Authentication failed", Toast.LENGTH_LONG).show()
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
             runOnUiThread {
-                Toast.makeText(applicationContext, "Error reading MIFARE Classic data.", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Error reading MIFARE Classic data", Toast.LENGTH_LONG).show()
             }
         } finally {
             mifare?.close()
@@ -122,13 +129,13 @@ class ScanImplantActivity : AppCompatActivity() {
                 }
             } else {
                 runOnUiThread {
-                    Toast.makeText(applicationContext, "No data found.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "No data found", Toast.LENGTH_LONG).show()
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
             runOnUiThread {
-                Toast.makeText(applicationContext, "Error reading MIFARE Ultralight data.", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Error reading MIFARE Ultralight data", Toast.LENGTH_LONG).show()
             }
         } finally {
             ultralight?.close()
@@ -149,21 +156,27 @@ class ScanImplantActivity : AppCompatActivity() {
                 override fun onTextMessage(websocket: WebSocket?, text: String?) {
                     super.onTextMessage(websocket, text)
                 }
-
                 override fun onError(websocket: WebSocket?, cause: WebSocketException?) {
                     super.onError(websocket, cause)
                     runOnUiThread {
                         Toast.makeText(applicationContext, "Server not found", Toast.LENGTH_LONG).show()
                     }
                 }
-
             })
 
-            websocket.connect()
+            try {
+                websocket.connect()
+            }
+            catch (e: Exception) {
+                runOnUiThread {
+                    Toast.makeText(applicationContext, "Server not found", Toast.LENGTH_LONG).show()
+                }
+                goToMainActivity()
+            }
             websocket.sendText(json)
             websocket.disconnect()
             runOnUiThread {
-                Toast.makeText(applicationContext, "Authentication successful", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "MFA completed", Toast.LENGTH_LONG).show()
                 goToMainActivity()
             }
         }
