@@ -175,9 +175,12 @@ async def handle_client(websocket, path):
                 redis_conn.delete(operation_id)
 
         elif action == "MFA":
+            # Sprawdź, czy operacja o podanym operation_id istnieje w bazie Operation
             operation_id = content.get("operation_id")
-            mfa_id = content.get("mfa_id")
-            await mfa_authenticate(operation_id, mfa_id)
+            operation_data = redis_conn.get(operation_id)
+            if operation_data is not None:
+                mfa_id = content.get("mfa_id")
+                await mfa_authenticate(operation_id, mfa_id)
 
 start_server = websockets.serve(handle_client, "192.168.6.146", 30646)
 
