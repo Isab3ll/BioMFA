@@ -29,7 +29,7 @@ async def main():
                 print("1. Register")
                 print("2. Login")
                 choice = input("Choose an action (1/2): ")
-                # Operacja logowania
+                # Operacja rejestracji
                 if choice == "1":
                     username = input("Enter username: ")
                     password = input("Enter password: ")
@@ -44,7 +44,7 @@ async def main():
                         print(result)
                     except asyncio.TimeoutError:
                         reset_operation()
-                # Operacja rejestracji
+                # Operacja logowania
                 elif choice == "2":
                     username = input("Enter username: ")
                     password = input("Enter password: ")

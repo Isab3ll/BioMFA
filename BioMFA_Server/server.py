@@ -109,9 +109,17 @@ async def mfa_authenticate(operation_id, mfa_id):
     ws.pop(web_addr)
 
     if operation == "REGISTER":
-        # Dopisz mfa_id do odpowiedniego rekordu w bazie Operation
-        operation_data["mfa_id"] = mfa_id
-        redis_conn.set(operation_id, json.dumps(operation_data))
+        # Dodaj dane do bazy User, zatwierdzając użytkownika
+        user_data = {
+            "username": operation_data["username"],
+            "password": operation_data["password"],
+            "salt": operation_data["salt"],
+            "mfa_id": mfa_id
+        }
+        sqlite_cursor.execute("INSERT INTO User (username, password, salt, mfa_id) VALUES (?, ?, ?, ?)",
+                            (user_data["username"], user_data["password"], user_data["salt"], user_data["mfa_id"]))
+        sqlite_conn.commit()
+        redis_conn.delete(operation_id)
 
         # Prześlij komunikat sukcesu
         success_message = {
@@ -119,18 +127,6 @@ async def mfa_authenticate(operation_id, mfa_id):
             "content": "Registration successful"
         }
         await web_socket.send(json.dumps(success_message))
-
-        # Przenieś rekord Operation do bazy User, zatwierdzając użytkownika
-        user_data = {
-            "username": operation_data["username"],
-            "password": operation_data["password"],
-            "salt": operation_data["salt"],
-            "mfa_id": operation_data["mfa_id"]
-        }
-        sqlite_cursor.execute("INSERT INTO User (username, password, salt, mfa_id) VALUES (?, ?, ?, ?)",
-                            (user_data["username"], user_data["password"], user_data["salt"], user_data["mfa_id"]))
-        sqlite_conn.commit()
-        redis_conn.delete(operation_id)
 
     elif operation == "LOGIN":
         # Sprawdź poprawność MFA ID w bazie User
