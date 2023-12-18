@@ -88,15 +88,14 @@ class ScanImplantActivity : AppCompatActivity() {
         try {
             mifare?.connect()
             if (mifare?.authenticateSectorWithKeyA(CLASSIC_SECTOR_INDEX, CLASSIC_DEFAULT_KEY) == true) {
-                val blockData = mifare.readBlock(CLASSIC_BLOCK_INDEX)
-                val dataAsString = blockData.toHexString()
+                val uid = tag.id.toHexString()
                 runOnUiThread {
-                    dataTextView.text = dataAsString
+                    dataTextView.text = uid
                     nextButton.visibility = View.VISIBLE
                 }
             } else {
                 runOnUiThread {
-                    Toast.makeText(applicationContext, "Authentication failed", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Sector authentication failed", Toast.LENGTH_LONG).show()
                 }
             }
         } catch (e: Exception) {
@@ -114,18 +113,10 @@ class ScanImplantActivity : AppCompatActivity() {
 
         try {
             ultralight?.connect()
-
-            val pageData = ultralight?.readPages(ULTRALIGHT_PAGE_INDEX)
-            if (pageData != null) {
-                val dataAsString = pageData.toHexString()
-                runOnUiThread {
-                    dataTextView.text = dataAsString
-                    nextButton.visibility = View.VISIBLE
-                }
-            } else {
-                runOnUiThread {
-                    Toast.makeText(applicationContext, "No data found", Toast.LENGTH_LONG).show()
-                }
+            val uid = tag.id.toHexString()
+            runOnUiThread {
+                dataTextView.text = uid
+                nextButton.visibility = View.VISIBLE
             }
         } catch (e: Exception) {
             e.printStackTrace()

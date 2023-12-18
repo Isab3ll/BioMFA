@@ -66,22 +66,21 @@ class ScanRfidActivity : AppCompatActivity() {
         try {
             mifare?.connect()
             if (mifare?.authenticateSectorWithKeyA(CLASSIC_SECTOR_INDEX, CLASSIC_DEFAULT_KEY) == true) {
-                val blockData = mifare.readBlock(CLASSIC_BLOCK_INDEX)
-                val dataAsString = blockData.toHexString()
+                val uid = tag.id.toHexString()
                 val showDataIntent = Intent(this, ShowDataActivity::class.java).apply {
-                    putExtra(ShowDataActivity.EXTRA_SCANNED_DATA, dataAsString)
+                    putExtra(ShowDataActivity.EXTRA_SCANNED_DATA, uid)
                     putExtra(ShowDataActivity.EXTRA_TAG_TYPE, "MIFARE Classic")
                 }
                 startActivity(showDataIntent)
             } else {
                 runOnUiThread {
-                    Toast.makeText(applicationContext, "Authentication failed", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Sector authentication failed", Toast.LENGTH_LONG).show()
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
             runOnUiThread {
-                Toast.makeText(applicationContext, "Error reading MIFARE Classis data", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Error reading MIFARE Classic data", Toast.LENGTH_LONG).show()
             }
         } finally {
             mifare?.close()
@@ -93,20 +92,12 @@ class ScanRfidActivity : AppCompatActivity() {
 
         try {
             ultralight?.connect()
-
-            val pageData = ultralight?.readPages(ULTRALIGHT_PAGE_INDEX)
-            if (pageData != null) {
-                val dataAsString = pageData.toHexString()
-                val showDataIntent = Intent(this, ShowDataActivity::class.java).apply {
-                    putExtra(ShowDataActivity.EXTRA_SCANNED_DATA, dataAsString)
-                    putExtra(ShowDataActivity.EXTRA_TAG_TYPE, "MIFARE Ultralight")
-                }
-                startActivity(showDataIntent)
-            } else {
-                runOnUiThread {
-                    Toast.makeText(applicationContext, "No data found", Toast.LENGTH_LONG).show()
-                }
+            val uid = tag.id.toHexString()
+            val showDataIntent = Intent(this, ShowDataActivity::class.java).apply {
+                putExtra(ShowDataActivity.EXTRA_SCANNED_DATA, uid)
+                putExtra(ShowDataActivity.EXTRA_TAG_TYPE, "MIFARE Ultralight")
             }
+            startActivity(showDataIntent)
         } catch (e: Exception) {
             e.printStackTrace()
             runOnUiThread {

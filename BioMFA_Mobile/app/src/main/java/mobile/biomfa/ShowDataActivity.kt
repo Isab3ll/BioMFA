@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Html
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -33,15 +34,17 @@ class ShowDataActivity : AppCompatActivity() {
         val tagType = intent.getStringExtra(EXTRA_TAG_TYPE)
 
         if (scannedData != null) {
-            dataTextView.text = scannedData
+            val formattedData = "<b>UID</b><br/>$scannedData"
+            dataTextView.text = Html.fromHtml(formattedData, Html.FROM_HTML_MODE_COMPACT)
         } else {
             dataTextView.text = "No data found"
         }
 
         if (tagType != null) {
-            tagTypeTextView.text = "Tag Type: $tagType"
+            val formattedData = "<b>Tag Type</b><br/>$tagType"
+            tagTypeTextView.text = Html.fromHtml(formattedData, Html.FROM_HTML_MODE_COMPACT)
         } else {
-            tagTypeTextView.text = "Tag Type: Unknown"
+            tagTypeTextView.text = "Unknown Tag Type"
         }
     }
 }
