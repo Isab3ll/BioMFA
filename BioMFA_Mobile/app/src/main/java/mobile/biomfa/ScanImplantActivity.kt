@@ -161,17 +161,17 @@ class ScanImplantActivity : AppCompatActivity() {
 
             try {
                 websocket.connect()
+                websocket.sendText(json)
+                websocket.disconnect()
+                runOnUiThread {
+                    Toast.makeText(applicationContext, "MFA completed", Toast.LENGTH_LONG).show()
+                    goToMainActivity()
+                }
             }
             catch (e: Exception) {
                 runOnUiThread {
                     Toast.makeText(applicationContext, "Server not found", Toast.LENGTH_LONG).show()
                 }
-                goToMainActivity()
-            }
-            websocket.sendText(json)
-            websocket.disconnect()
-            runOnUiThread {
-                Toast.makeText(applicationContext, "MFA completed", Toast.LENGTH_LONG).show()
                 goToMainActivity()
             }
         }
