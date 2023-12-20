@@ -1,7 +1,8 @@
 <script>
     import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
     
-    let session_id = window.location.pathname.split("/")[2];
+    let session_id = $page.url.pathname.split("/")[2];
     
     function logout() {
         goto("/logout/" + session_id);
