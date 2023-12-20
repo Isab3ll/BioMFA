@@ -1,8 +1,17 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import redis
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[""],
+    allow_credentials=True,
+    allow_methods=[""],
+    allow_headers=["*"],
+)
 
 # Połączenie z Redis (baza danych Session)
 redis_conn_session = redis.StrictRedis(host='localhost', port=6379, db=1)
