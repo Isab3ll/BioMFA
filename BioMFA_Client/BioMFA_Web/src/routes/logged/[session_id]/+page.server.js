@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 
 export async function load({params}) {
-    const res = await fetch('http://localhost:20646/is_logged', {
+    const res = await fetch('http://127.0.0.1:20646/is_logged', {
             method: 'POST',
             body: JSON.stringify({"session_id": params.session_id}),
             headers: {
