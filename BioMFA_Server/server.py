@@ -44,6 +44,18 @@ def generate_session_id():
 
 # Funkcja obsługująca rejestrację użytkownika
 async def register_user(username, password, websocket):
+    # Sprawdź, czy użytkownik o podanej nazwie nie istnieje już w bazie User
+    sqlite_cursor.execute("SELECT username FROM User WHERE username=?", (username,))
+    user_data = sqlite_cursor.fetchone()
+    if user_data is not None:
+        # Wyślij komunikat o błędzie rejestracji
+        response = {
+            "action": "REGISTER",
+            "content": "Username already exists"
+        }
+        await websocket.send(json.dumps(response))
+        return
+
     # Wygeneruj ID operacji i sól
     operation_id = generate_operation_id()
     salt = generate_salt()
@@ -144,12 +156,12 @@ async def mfa_authenticate(operation_id, mfa_id):
             # Wygeneruj ID sesji i zapisz w bazie Session
             session_id = generate_session_id()
             session_data = {
-                "usename": operation_data["username"]
+                "username": operation_data["username"]
             }
             redis_conn_session.set(session_id, json.dumps(session_data))
             # Odpowiedz aplikacji webowej sukcesem
             success_message = {
-                "action": "LOGIN",
+                "action": "SESSION",
                 "content": {
                     "session_id": session_id
                 }
