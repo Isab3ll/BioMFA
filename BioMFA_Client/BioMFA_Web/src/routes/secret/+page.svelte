@@ -15,7 +15,7 @@
         background-color: white;
         padding: 50px;
         border-radius: 10px;
-        height: 200px;
+        height: 350px;
     }
 
     .logo {
@@ -37,10 +37,14 @@
 </style>
 
 <main class="main">
-    <h1>Secret page</h1>
+    <h1>BioMFA<br>Secret page</h1>
+    <img src="/biomfa_logo.png" alt="BioMFA Logo" class="logo" />
+
+    <br><br>
+
     <p>Welcome, <b>{username}</b>!</p>
 
-	<p>You successfully logged in to the secret page.</p>
+	<!-- <p>You successfully logged in to the secret page.</p> -->
 
     <div class="button-container">
         <button on:click={() => logout()}>Logout</button>

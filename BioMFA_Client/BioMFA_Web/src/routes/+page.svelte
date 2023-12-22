@@ -101,7 +101,7 @@
 
 <main class="main">
 	<h1>BioMFA Web</h1>
-	<img src="/biomfa_logo.png" alt="BioMFA Logo" class="logo" />
+	<img src="/qr.png" alt="BioMFA Logo" class="logo" />
 
     <br><br>
 
