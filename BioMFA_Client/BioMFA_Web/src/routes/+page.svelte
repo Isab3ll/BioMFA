@@ -5,7 +5,7 @@
 
 	let socket;
 	onMount(() => {
-		socket = new WebSocket(`ws://frog01.mikr.us:30646`);
+		socket = new WebSocket(`wss://biomfa.online/ws`);
 		socket.addEventListener('message', (event) => {
 			const session = JSON.parse(event.data);
 			content = session.content;
@@ -32,7 +32,7 @@
 	let content;
 	let block_input = false;
 
-	const apk_url = 'http://frog01.mikr.us:40646/biomfa.apk';
+	const apk_url = '/biomfa.apk';
 
 	function login() {
 		let hashed_password = SHA512.hex(password);
@@ -103,7 +103,7 @@
 
 <main class="main">
 	<h1>BioMFA Web</h1>
-	<a href={apk_url} target="_blank"> <img src="/qr.png" alt="BioMFA Logo" class="logo" />	</a>
+	<a href={apk_url} target="_blank"> <img src="/qrcode.png" alt="BioMFA Logo" class="logo" />	</a>
 
     <br><br>
 

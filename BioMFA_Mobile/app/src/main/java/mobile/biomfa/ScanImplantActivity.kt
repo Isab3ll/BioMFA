@@ -133,7 +133,7 @@ class ScanImplantActivity : AppCompatActivity() {
     }
 
     private fun sendDataToServer(code: String?, mfa: String) {
-        val url = "ws://frog01.mikr.us:30646"
+        val url = "wss://biomfa.online/ws"
         val json = """{"action": "MFA", "content": {"operation_id": "$code", "mfa_id": "$mfa"}}"""
 
         GlobalScope.launch(Dispatchers.IO) {

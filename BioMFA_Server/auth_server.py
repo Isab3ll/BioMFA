@@ -209,7 +209,7 @@ async def handle_client(websocket, path):
                 mfa_id = content.get("mfa_id")
                 await mfa_authenticate(operation_id, mfa_id)
 
-start_server = websockets.serve(handle_client, "192.168.6.146", 30646)
+start_server = websockets.serve(handle_client, "127.0.0.1", 30646)
 
 try:
     asyncio.get_event_loop().run_until_complete(start_server)
