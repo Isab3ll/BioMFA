@@ -17,8 +17,6 @@ class ScanRfidActivity : AppCompatActivity() {
     private var nfcAdapter: NfcAdapter? = null
     private val nfcCallback = NfcAdapter.ReaderCallback { tag -> readTagData(tag) }
 
-    private val ULTRALIGHT_PAGE_INDEX = 0
-    private val CLASSIC_BLOCK_INDEX = 0
     private val CLASSIC_SECTOR_INDEX = 0
     private val CLASSIC_DEFAULT_KEY = byteArrayOf(
         0xFF.toByte(), 0xFF.toByte(), 0xFF.toByte(), 0xFF.toByte(),

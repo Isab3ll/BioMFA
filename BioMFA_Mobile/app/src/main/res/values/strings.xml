@@ -5,7 +5,7 @@
     <string name="scan_rfid">Scan RFID</string>
     <string name="dark_mode">Dark mode</string>
     <string name="info">Info</string>
-    <string name="app_description">The BioMFA application is an integral component of my engineering thesis, conducted at the esteemed Warsaw University of Technology. Within the realm of Cybersecurity at the Faculty of Electronics and Information Technology, this project has been a remarkable endeavor.\n\nThe application forms an essential part of an innovative authentication solution, harnessing RFID implants for secure user verification. The potential impact of this cutting-edge approach on digital security is significant, and I am thrilled to have contributed to advancing the field through this academic pursuit.</string>
+    <string name="app_description">The BioMFA Mobile application is an integral part of the engineering work prepared at the Warsaw University of Technology. The project was carried out in the field of Cybersecurity at the Faculty of Electronics and Information Technology.\n\nThe application itself is one of the elements of an innovative multi-factor authentication system that uses NFC implants for secure user verification.</string>
     <string name="about_biomfa">About BioMFA</string>
     <string name="biomfa_logo">BioMFA Logo</string>
     <string name="implant_message">Position your implant near the phone\'s NFC antenna.</string>
