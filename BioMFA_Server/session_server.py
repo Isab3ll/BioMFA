@@ -25,7 +25,7 @@ class Session(BaseModel):
 async def is_logged(session: Session):
     # Sprawdź istnienie sesji
     session_data = redis_conn_session.get(session.session_id)
-    if session_data is not None and session_data == session.username:
+    if session_data is not None:
         return {"is_logged": True}
     return {"is_logged": False}
 
