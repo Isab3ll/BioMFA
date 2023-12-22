@@ -26,7 +26,6 @@
 	"dependencies": {
 		"crypto-js": "^4.2.0",
 		"js-sha512": "^0.8.0",
-		"jshashes": "^1.0.8",
-		"svelte-qrcode": "^1.0.0"
+		"jshashes": "^1.0.8"
 	}
 }

@@ -32,6 +32,8 @@
 	let content;
 	let block_input = false;
 
+	const apk_url = 'http://frog01.mikr.us:40646/biomfa.apk';
+
 	function login() {
 		let hashed_password = SHA512.hex(password);
 		let message = { action: 'LOGIN', content: { username: username, password: hashed_password } };
@@ -101,7 +103,7 @@
 
 <main class="main">
 	<h1>BioMFA Web</h1>
-	<img src="/qr.png" alt="BioMFA Logo" class="logo" />
+	<a href={apk_url} target="_blank"> <img src="/qr.png" alt="BioMFA Logo" class="logo" />	</a>
 
     <br><br>
 
