@@ -28,7 +28,11 @@ def generate_salt():
 
 # Funkcja do hashowania hasła z solą
 def hash_password(password, salt):
-    return hashlib.sha512((password + salt).encode('utf-8')).hexdigest()
+    return hashlib.sha512((password + salt).encode('utf-8')).hexdigest()\
+    
+# Funkcja do hashowania MFA ID
+def hash_mfa(mfa_id):
+    return hashlib.sha512(mfa_id.encode('utf-8')).hexdigest()
 
 # Funkcja do porównywania haseł
 def compare_passwords(password, salt, hashed_password):
@@ -133,7 +137,7 @@ async def mfa_authenticate(operation_id, mfa_id):
             "username": operation_data["username"],
             "password": operation_data["password"],
             "salt": operation_data["salt"],
-            "mfa_id": mfa_id
+            "mfa_id": hash_mfa(mfa_id)
         }
         sqlite_cursor.execute("INSERT INTO User (username, password, salt, mfa_id) VALUES (?, ?, ?, ?)",
                             (user_data["username"], user_data["password"], user_data["salt"], user_data["mfa_id"]))
@@ -152,7 +156,7 @@ async def mfa_authenticate(operation_id, mfa_id):
         sqlite_cursor.execute("SELECT mfa_id FROM User WHERE username=?", (operation_data["username"],))
         mfa_db = sqlite_cursor.fetchone()[0]
         redis_conn_operation.delete(operation_id)
-        if mfa_db == mfa_id:
+        if mfa_db == hash_mfa(mfa_id):
             # Wygeneruj ID sesji i zapisz w bazie Session
             session_id = generate_session_id()
             session_data = {
