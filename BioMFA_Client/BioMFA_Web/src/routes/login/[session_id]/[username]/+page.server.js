@@ -14,7 +14,7 @@ export async function load({ params, cookies }) {
 		throw error(401);
 	}
 
-	cookies.set('session_id', params.session_id, { path: '/', secure: false, maxage: 60 * 60});
-	cookies.set('username', params.username, { path: '/' , secure: false, maxage: 60 * 60});
+	cookies.set('session_id', params.session_id, { path: '/', secure: true, maxage: 60 * 60});
+	cookies.set('username', params.username, { path: '/' , secure: true, maxage: 60 * 60});
 	redirect(303, '/secret');
 }
