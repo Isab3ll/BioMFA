@@ -3,7 +3,7 @@ import hashlib
 import websockets
 import json
 
-server_address = "ws://frog01.mikr.us:30646"
+server_address = "wss://biomfa.online/ws"
 global_websocket = None
 operation_id = None
 
@@ -38,6 +38,9 @@ async def main():
                     await websocket.send(json.dumps(message))
                     response = await websocket.recv()
                     print(response)
+                    content = json.loads(response).get("content")
+                    if content == "Username already exists":
+                        continue
                     operation_id = json.loads(response).get("content").get("operation_id")
                     try:
                         result = await asyncio.wait_for(websocket.recv(), timeout=60)
