@@ -10,6 +10,7 @@ export async function load({ params, cookies }) {
 	});
 
 	const json = await res.json();
+	
 	if (json.is_logged == false) {
 		throw error(401);
 	}
