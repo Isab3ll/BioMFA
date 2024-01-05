@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import json
 from pydantic import BaseModel
 import redis
 
@@ -14,10 +15,14 @@ class Session(BaseModel):
 
 @app.post("/is_logged")
 async def is_logged(session: Session):
-    # Sprawdź istnienie sesji
+    # Sprawdź czy sesja istnieje w bazie sesji
     session_data = redis_conn_session.get(session.session_id)
     if session_data is not None:
-        return {"is_logged": True}
+        # Sprawdź czy nazwa użytkownika w sesji jest zgodna z nazwą w parametrze
+        session_data = json.loads(session_data)
+        username = session_data["username"]
+        if username == session.username:
+            return {"is_logged": True}
     return {"is_logged": False}
 
 @app.post("/logout")
