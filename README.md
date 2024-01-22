@@ -1,2 +1,2 @@
 # BioMFA
-Multi-factor authentication system for implantable RFID devices
+Multi-factor authentication system for implantable NFC devices
